@@ -1,28 +1,3 @@
-/*// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}*/	
 // Based on an example:
 //https://github.com/don/cordova-plugin-ble-central
 
@@ -40,6 +15,9 @@ function stringToBytes(string) {
     }
     return array.buffer;
 }
+
+    var rooms = ["DVKTEST1", "DVKTEST2"];
+
 
 // this is ble hm-10 UART service
 /*var blue= {
@@ -60,50 +38,77 @@ var deviceList =[];
 function onLoad(){
 	document.addEventListener('deviceready', onDeviceReady, false);
     bleDeviceList.addEventListener('touchstart', conn, false); // assume not scrolling
+
+	
+}
+//var refreshTimer = 
+setInterval(myTimer ,10000);
+
+function myTimer() {
+    
+    refreshDeviceList();
+	
+
 }
 
 function onDeviceReady(){
-	Scan_New_Beacon();
-}
+		refreshDeviceList()
+		
+
+ }
 
 	 
-function Scan_New_Beacon(){
-	var myVar = setInterval(myTimer, 30000);
-
-function myTimer() {
-	
+function refreshDeviceList(){
+	//deviceList =[];
+    
+	document.getElementById("bleDeviceList").innerHTML = ''; // empties the list
 	if (cordova.platformId === 'android') { // Android filtering is broken
-	ble.scan([], 5, onDiscoverDevice, onError);
-} 
-	else {
-	//alert("Disconnected");
-	ble.scan([blue.serviceUUID], 5, onDiscoverDevice, onError);
-}
-}
-}
-function removeElement() {
-    document.getElementById("exo").style.display = "none";
+		ble.scan([], 5, onDiscoverDevice, onError);
+	} else {
+		//alert("Disconnected");
+		ble.scan([blue.serviceUUID], 5, onDiscoverDevice, onError);
+	}
 }
 
-function resetElement() {
-    document.getElementById("exo").style.display = "block";
-}
+
+
+
 function onDiscoverDevice(device){
 	//Make a list in html and show devises
 	
-		var listItem = document.createElement('li'),
-		html = device.name+ "," + device.id;
-		listItem.innerHTML = html;
-		document.getElementById("bleDeviceList").appendChild(listItem);
-		if (device.name="DVKTEST1"||"DVKTEST2")
-		{
-			document.getElementById("exo").style.display = "block";
-		}
+	//var i;
+
+	//for (i = 0; i < rooms.lenght; i++) {	
+	
+	//document.getElementById("test4").innerHTML += device.name + "<br>";
+
+	var testRoom = device.name;
+	switch (testRoom) {
+
+			case "DVKTEST1":
+				window.location.href = 'test.html';
+				
+			break;
+			
+			case "DVKTEST2":
+				window.location.href = 'test2.html';
+				
+			break;
+
 	}
+	/*if  (document.getElementById("bleDeviceList" == 'DVKTEST1'){
+		
+		window.open("test.html");
+		
+
+		}
+	else onDeviceReady();  */
+	
 
 
+}
 
-/*
+
 function conn(){
 	var  deviceTouch= event.srcElement.innerHTML;
 	document.getElementById("debugDiv").innerHTML =""; // empty debugDiv
@@ -153,5 +158,5 @@ function onDisconnect(){
 function onError(reason)  {
 	alert("ERROR: " + reason); // real apps should use notification.alert
 }
-*/
 
+	
